@@ -29,10 +29,12 @@ app.use(function (req, res, next) {
 
 // import routes
 const authRoutes = require('./routes/Auth')
+const foodRoutes = require('./routes/Food')
 
 
 // use routes
 app.use('/auth', authRoutes)
+app.use('/food', foodRoutes)
 
 
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
