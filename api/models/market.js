@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   market.associate = function(models) {
     // associations can be defined here
+    market.belongsTo(models.category, {
+      foreignKey: {
+        field: 'categoryId',
+        allowNull: false,
+      },
+      onDelete: 'cascade',
+    })
   };
   return market;
 };
