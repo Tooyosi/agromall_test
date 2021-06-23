@@ -27,4 +27,12 @@ app.use(function (req, res, next) {
 });
 
 
+// import routes
+const authRoutes = require('./routes/Auth')
+
+
+// use routes
+app.use('/auth', authRoutes)
+
+
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));

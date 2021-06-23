@@ -22,6 +22,25 @@ class DbHelpers {
             return res.status(400).send(response)
         }
     }
+    async createUniqueInstance(table,uniqueParams,  params, res, Response) {
+        let response
+        try {
+            let existingModel = await this.model[table].findOne(uniqueParams)
+            if (existingModel !== null && existingModel !== undefined) {
+                response = new Response(this.failedStatus, `${table} already exists`, this.failureCode, {})
+
+                return res.status(400).send(response)
+            }
+            let newModel = await this.model[table].create(params)
+            response = new Response(this.successStatus, this.successStatus, this.successCode, newModel)
+            return res.status(200).send(response)
+        } catch (error) {
+            console.log(error)
+            this.logger.error(`Error while creating ${table} model: ${JSON.stringify(error)}`)
+            response = new Response(this.failedStatus, this.failedStatus, this.failureCode, error.toString())
+            return res.status(400).send(response)
+        }
+    }
 
     async editInstance(table, params, updateObj, res, Response) {
         let response

@@ -32,22 +32,33 @@ module.exports = {
             if (value && value.trim() !== "") {
                 object[field] = value
             }
-        }else {
+        } else {
             if (value && value.length == 11) {
                 object[field] = value
             }
         }
     },
-    isValueEmpty: (name, value, res)=>{
+    isValueEmpty: (name, value, res) => {
         let response
         if (!value || value.trim() == "") {
-            response = new Response(this.failedStatus, `Validation error,${name} is required`, this.failureCode, {})
-            return res.status(400)
+            response = new Response("Failed", `Validation error,${name} is required`, "99", {})
+            res.status(400)
                 .send(response)
+            return true
         }
     },
+    isEmailValid: (value, res) => {
+        let response
 
-    isArrayValueEmpty: (name, value, res)=>{
+        let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        if (!filter.test(value)) {
+            response = new Response("Failed", `Validation error,Email is invalid`, "99", {})
+            res.status(400)
+                .send(response)
+            return true
+        }
+    },
+    isArrayValueEmpty: (name, value, res) => {
         let response
         if (!value || !Array.isArray(value) || value.length < 1) {
             response = new Response(this.failedStatus, `Validation error,${name} is required and must not be empty`, this.failureCode, {})
