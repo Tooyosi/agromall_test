@@ -5,7 +5,11 @@ const { authenticate, protected } = require('../../middleware');
 
 
 
-router.post('/category/add',authenticate, protected, FoodController.addCategory)
+router.get('/category',authenticate, protected, FoodController.getCategories)
+router.post('/category',authenticate, protected, FoodController.addCategory)
+router.put('/category/:id',authenticate, protected, FoodController.editCategory)
+router.delete('/category/:id',authenticate, protected, FoodController.deleteCategory)
+
 
 
 
