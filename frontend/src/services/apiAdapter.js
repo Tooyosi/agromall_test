@@ -64,6 +64,10 @@ instance.interceptors.response.use(
 // returns default axios config
 export default instance
 
+
+export const googleApiInstance = axios.create({
+  baseURL: "https://maps.googleapis.com/maps/api/"
+});
 export const logout = ()=>{
   localStorage.clear()
   window.location.href = '/'
