@@ -1,0 +1,451 @@
+{
+	"info": {
+		"_postman_id": "40451f51-4388-455f-afae-baa7a77311c3",
+		"name": "Agromall",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"test\",\r\n    \"lastname\": \"test\",\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Food",
+			"item": [
+				{
+					"name": "Category",
+					"item": [
+						{
+							"name": "Add Category",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/food/category",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fetch Categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/food/category",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Category",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Test changed\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/food/category/10",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"category",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/food/category/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"category",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Market",
+					"item": [
+						{
+							"name": "Add Market",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/benny-jackson-0zBJmvRpYMM-unsplash.jpg"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/benny-jackson-0zBJmvRpYMM-unsplash.jpg"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/benny-jackson-0zBJmvRpYMM-unsplash.jpg"
+										},
+										{
+											"key": "name",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "categoryId",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "test",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/food/market",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"market"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Market",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/id card.jpeg"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/benny-jackson-0zBJmvRpYMM-unsplash.jpg",
+											"disabled": true
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": "/C:/Users/Dell/Pictures/benny-jackson-0zBJmvRpYMM-unsplash.jpg",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "test",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "changed",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "categoryId",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "changed",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/food/market/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"market",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Markets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/food/market",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"market"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Single Market",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/food/market/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"market",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Market",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/food/market/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"food",
+										"market",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
