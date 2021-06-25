@@ -30,3 +30,14 @@ export const getAddress = (address)=>{
     }
 
 }
+
+export const getCoordinates = (address)=>{
+    try {
+        let newAdd = JSON.parse(address)
+        console.log({newAdd})
+        return {lat: newAdd.lat, lng: newAdd.lng}
+    } catch (error) {
+        return { lat: 47.444, lng: -122.176}
+    }
+
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from "react-router-dom"
-import { Card, CardBody, Table } from 'reactstrap'
+import { Button, Card, CardBody, Table } from 'reactstrap'
 import { getAddress } from '../../../utilities'
 
 export default function MarketList(props) {
@@ -28,7 +28,10 @@ export default function MarketList(props) {
                             <td>{market.description}</td>
                             <td>{market.category.name}</td>
                             <td>{getAddress(market.address)}</td>
-                            <td><Link to={`/market/${market.id}`}>View</Link></td>
+                            <td className="d-flex">
+                                <Link to={`/markets/${market.id}`} className="mr-2">View</Link>
+                                <Button color="danger" className="mr-2" onClick={()=> props.onDelete(market.id)}>Delete</Button>
+                            </td>
                         </tr>
 
                     ))}

@@ -67,7 +67,7 @@ export default function AddMarket(props) {
                 showSuccess(addnewMarket.data.description)
                 if (props.reload) {
                     props.reload()
-                    props.onClose()
+                    // props.onClose()
                 }
             } else {
                 showError(data.error_message || "An error occured while fetching address")
