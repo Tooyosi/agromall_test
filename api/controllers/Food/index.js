@@ -209,7 +209,7 @@ module.exports = {
         let response
         let {name, categoryId} = req.query
         let whereObj = {}
-        console.log({name, categoryId})
+        
         addToObject("name", name, whereObj)
         addToObject("categoryId", categoryId, whereObj)
         try {
