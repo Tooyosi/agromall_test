@@ -14,7 +14,9 @@ export default function Markets() {
             loading: false,
             data: []
         },
-        showAdd: false
+        selectedMarket: {},
+        showAdd: false,
+        showEdit: false
     })
 
     const [reload, setReload] = useState(false)
@@ -24,6 +26,7 @@ export default function Markets() {
     }, [reload])
 
     const toggleAdd = ()=> setstate({...state, showAdd: !state.showAdd})
+    const toggleEdit = ()=> setstate({...state, showEdit: !state.showEdit})
     const setMarkets = (data) => {
         setstate({
             ...state,
@@ -31,7 +34,17 @@ export default function Markets() {
                 ...state.markets,
                 ...data
             },
-            showAdd: false
+            showAdd: false,
+        showEdit: false
+
+        })
+    }
+
+    const setSelectedMarket = (market) =>{
+        setstate({
+            ...state,
+            selectedMarket: market,
+            showEdit: true
         })
     }
     const fetchMarkets = async () => {
@@ -48,7 +61,6 @@ export default function Markets() {
         try {
             showLoading()
             let {data} = await deleteSingleMarket(id)
-            console.log({data})
             showSuccess(data?.description)
             setReload(!reload)
         } catch (error) {
@@ -79,7 +91,7 @@ export default function Markets() {
                                 <MarketList
                                     list={state.markets.data}
                                     onDelete={doDelete}
-                                    // toggleEdit={}
+                                    toggleEdit={setSelectedMarket}
                                 />
                             }
                         </CardBody>
@@ -94,6 +106,17 @@ export default function Markets() {
                 keyboard={false}
                 >
                    {state.showAdd && <AddMarket reload={()=>setReload(!reload)} onClose={()=>toggleAdd()}/>}
+
+            </CustomModal>
+
+            <CustomModal 
+                isOpen={state.showEdit}
+                toggle={toggleEdit}
+                header="Edit Market"
+                backdrop="static"
+                keyboard={false}
+                >
+                   {state.showEdit && <AddMarket reload={()=>setReload(!reload)} isEdit={true} selectedMarket={state.selectedMarket}/>}
 
             </CustomModal>
         </Container>

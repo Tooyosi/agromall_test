@@ -22,14 +22,14 @@ const validation = Yup.object().shape({
 
 
 export default function FormAdd(props) {
-    let { formControl, onChange, formName, categories } = props
+    let { formControl, onChange, formName, categories, isEdit } = props
 
     return (
         <FormsWrapper
             values={formControl}
             handleSubmit={props.onSubmit}
             handleChange={props.onChange}
-            validationSchema={validation}>
+            validationSchema={!isEdit && validation}>
             {
                 props => {
                     const {
@@ -135,7 +135,7 @@ export default function FormAdd(props) {
 
                                 <Col sm="12" className="mt-2">
 
-                                    <Button color="primary" className="btn-floating small" disabled={values.files < 3}>Submit</Button>
+                                    <Button color="primary" className="btn-floating small" disabled={!isEdit && values.files < 3}>Submit</Button>
                                 </Col>
 
                             </Row>

@@ -211,7 +211,7 @@ module.exports = {
                 include: {
                     model: Models.category,
                     as: 'category',
-                    attributes: ['name']
+                    attributes: ['id', 'name']
 
                 }
             }, res, Response)
