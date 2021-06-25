@@ -18,6 +18,6 @@ node app.js
 
 
 ```bash
-sequelize db:seed:all
+npx sequelize-cli db:seed:all
 
 ```
