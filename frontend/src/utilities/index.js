@@ -20,3 +20,13 @@ export const onChange = (e, state, changeState) => {
         }
     });}
 }
+
+export const getAddress = (address)=>{
+    try {
+        let newAdd = JSON.parse(address)
+        return newAdd.formatted_address
+    } catch (error) {
+        return address
+    }
+
+}

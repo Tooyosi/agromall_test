@@ -6,6 +6,8 @@ export const showLoading = (params) => {
     text: 'Please wait...',
     onBeforeOpen: () => Swal.showLoading(),
     allowOutsideClick: () => !Swal.isLoading(),
+    showCancelButton: false,
+    showConfirmButton: false,
     ...params
   });
 };

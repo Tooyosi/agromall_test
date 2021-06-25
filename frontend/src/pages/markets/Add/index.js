@@ -6,7 +6,7 @@ import { getGeocode } from '../../../services/geocodeService'
 import { addMarket, getCategories } from '../../../services/marketService'
 import { showError, showLoading, showSuccess } from '../../../utilities/utility_alert'
 
-export default function AddMarket() {
+export default function AddMarket(props) {
     const [state, setstate] = useState({
         formMarket: {
             marketName: "",
@@ -19,18 +19,18 @@ export default function AddMarket() {
         }
     })
 
-    const [categories, setCategories]=useState([])
+    const [categories, setCategories] = useState([])
 
     const handleChange = (e) => {
         onChange(e, state, setstate)
     }
 
-    const fetchCategories = async()=>{
+    const fetchCategories = async () => {
         try {
-            let {data} = await getCategories()
+            let { data } = await getCategories()
             setCategories(data.data)
         } catch (error) {
-            
+
         }
     }
 
@@ -44,45 +44,46 @@ export default function AddMarket() {
             showLoading()
             let { formMarket } = state
             let { data } = await getGeocode(`${formMarket.houseNo}+${formMarket.state}+${formMarket.state}`)
-            // console.log({ data, formMarket })
+
+            let newAdd = {
+                formatted_address: data.results[0].formatted_address,
+                ...data.results[0].geometry.location
+            }
             let newMarket = new FormData()
-            if(!data.error_message && data.results.length > 0){
+            if (!data.error_message && data.results.length > 0) {
                 newMarket.append("name", formMarket.marketName)
                 newMarket.append("description", formMarket.description)
                 newMarket.append("categoryId", formMarket.categoryId)
-                newMarket.append("address", JSON.stringify(data.results))
+                newMarket.append("address", JSON.stringify(newAdd))
                 for (let i = 0; i < formMarket.files.length; i++) {
                     const element = formMarket.files[i];
-                newMarket.append("images", element)
+                    newMarket.append("images", element)
 
-                    
+
                 }
                 // newMarket.append("image", formMarket.files)
 
                 let addnewMarket = await addMarket(newMarket)
-                    showSuccess(addnewMarket.data.description)
-            }else{
+                showSuccess(addnewMarket.data.description)
+                if (props.reload) {
+                    props.reload()
+                    props.onClose()
+                }
+            } else {
                 showError(data.error_message || "An error occured while fetching address")
             }
         } catch (error) {
-            console.log(error)
             showError(error?.response?.data?.description || "An error occured")
         }
 
     }
     return (
-        <div className="container">
-            <Row className="vh-100">
-                <Col className="m-auto" md="6">
-                    <FormAdd
-                        formControl={state.formMarket}
-                        formName="formMarket"
-                        categories={categories}
-                        onChange={handleChange}
-                        onSubmit={handleSubmit}
-                    />
-                </Col>
-            </Row>
-        </div>
+        <FormAdd
+            formControl={state.formMarket}
+            formName="formMarket"
+            categories={categories}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+        />
     )
 }

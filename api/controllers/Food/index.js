@@ -104,7 +104,6 @@ module.exports = {
                 try {
                     let { name, description, categoryId, address } = req.body
 
-                    console.log(req.files)
                     if (req.files && req.files.length !== 3) {
                         response = new Response(failedStatus, "3 image files are required", failureCode, {})
                         return res.status(400)

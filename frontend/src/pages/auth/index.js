@@ -23,7 +23,7 @@ export default function Auth() {
             let {data} = await login(state.formLogin)
             localStorage.setItem("token", data?.data?.access_token)
             localStorage.setItem("user", JSON.stringify(data.data))
-            window.location.href ="/markets/add"
+            window.location.href ="/markets"
         } catch (error) {
             showError(error?.response?.data?.description?.message || error?.response?.data?.description || "An error occured")
         }
