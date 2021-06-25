@@ -7,7 +7,7 @@ export const addMarket = (data)=> axios.post(`food/market`, data)
 export const editMarket = (data, id)=> axios.patch(`food/market/${id}`, data)
 
 
-export const getMarkets = ()=> axios.get(`food/market`)
+export const getMarkets = (name, category)=> axios.get(`food/market?name=${name}&categoryId=${category}`)
 
 export const getSingleMarket = (id)=> axios.get(`food/market/${id}`)
 

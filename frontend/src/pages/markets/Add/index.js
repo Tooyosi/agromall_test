@@ -7,7 +7,7 @@ import { addMarket, getCategories, editMarket } from '../../../services/marketSe
 import { showError, showLoading, showSuccess } from '../../../utilities/utility_alert'
 
 export default function AddMarket(props) {
-    let {isEdit, selectedMarket} = props
+    let {isEdit, selectedMarket, categories} = props
     const [state, setstate] = useState({
         formMarket: {
             marketName: isEdit? selectedMarket.name:  "",
@@ -21,24 +21,13 @@ export default function AddMarket(props) {
         }
     })
 
-    const [categories, setCategories] = useState([])
 
     const handleChange = (e) => {
         onChange(e, state, setstate)
     }
 
-    const fetchCategories = async () => {
-        try {
-            let { data } = await getCategories()
-            setCategories(data.data)
-        } catch (error) {
-
-        }
-    }
-
 
     useEffect(() => {
-        fetchCategories()
         if(isEdit){
             getAddress()
         }
@@ -62,7 +51,6 @@ export default function AddMarket(props) {
 
             
             let newMarket = new FormData()
-            console.log((!data.error_message && data.results.length > 0) || isEdit)
             if ((!data.error_message && data.results.length > 0) || isEdit) {
                 let newAdd = {
                     formatted_address: data.results[0]?.formatted_address,
@@ -91,7 +79,7 @@ export default function AddMarket(props) {
                 showError(data.error_message || "An error occured while fetching address")
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             showError(error?.response?.data?.description || "An error occured")
         }
 

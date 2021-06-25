@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, CardBody, Col, Container, Row, Spinner } from 'reactstrap'
-import { getMarkets, deleteSingleMarket } from '../../services/marketService'
+import { getMarkets, deleteSingleMarket, getCategories } from '../../services/marketService'
+import { onChange } from '../../utilities'
 import CustomModal from '../../utilities/CustomModal'
 import MapContainer from '../../utilities/MapComponent'
 import { showError, showLoading, showSuccess } from '../../utilities/utility_alert'
 import AddMarket from './Add'
+import FormSearch from './FormSearch'
 import MarketList from './List'
 
 
@@ -16,17 +18,33 @@ export default function Markets() {
         },
         selectedMarket: {},
         showAdd: false,
-        showEdit: false
+        showEdit: false,
+        formSearch: {
+            marketName: '',
+            categoryId:''
+        }
     })
 
     const [reload, setReload] = useState(false)
+    const [categories, setCategories] = useState([])
+    const fetchCategories = async () => {
+        try {
+            let { data } = await getCategories()
+            setCategories(data.data)
+        } catch (error) {
+
+        }
+    }
+
+
     useEffect(() => {
+        fetchCategories()
         setMarkets({ loading: true })
         fetchMarkets()
     }, [reload])
 
-    const toggleAdd = ()=> setstate({...state, showAdd: !state.showAdd})
-    const toggleEdit = ()=> setstate({...state, showEdit: !state.showEdit})
+    const toggleAdd = () => setstate({ ...state, showAdd: !state.showAdd })
+    const toggleEdit = () => setstate({ ...state, showEdit: !state.showEdit })
     const setMarkets = (data) => {
         setstate({
             ...state,
@@ -35,12 +53,15 @@ export default function Markets() {
                 ...data
             },
             showAdd: false,
-        showEdit: false
+            showEdit: false
 
         })
     }
 
-    const setSelectedMarket = (market) =>{
+    const handleChange = (e) => {
+        onChange(e, state, setstate)
+    }
+    const setSelectedMarket = (market) => {
         setstate({
             ...state,
             selectedMarket: market,
@@ -49,7 +70,8 @@ export default function Markets() {
     }
     const fetchMarkets = async () => {
         try {
-            let { data } = await getMarkets()
+            let {formSearch: {marketName, categoryId}} = state
+            let { data } = await getMarkets(marketName, categoryId)
             setMarkets({ loading: false, data: data.data })
 
         } catch (error) {
@@ -57,10 +79,10 @@ export default function Markets() {
         }
     }
 
-    const doDelete = async(id)=>{
+    const doDelete = async (id) => {
         try {
             showLoading()
-            let {data} = await deleteSingleMarket(id)
+            let { data } = await deleteSingleMarket(id)
             showSuccess(data?.description)
             setReload(!reload)
         } catch (error) {
@@ -74,20 +96,30 @@ export default function Markets() {
                 <Col sm="6">
                     <h4>Market List</h4>
                 </Col>
-                
+
                 <Col sm="6" className="text-right text-xs-left">
                     <Button onClick={toggleAdd} color="primary">+ Add New</Button>
                 </Col>
-                </Row>
+            </Row>
             <Row>
 
                 <Col sm="12">
                     <Card>
                         <CardBody>
-                            {state.markets.loading ? 
-                            <div>
-                            <Spinner className="m-auto"/>
-                            </div> :
+                            <FormSearch 
+                                onChange={handleChange}
+                                formName="formSearch"
+                                formControl={state.formSearch}
+                                categories={categories}
+                                onSubmit={(e)=>{
+                                    e.preventDefault()
+                                    setReload(!reload)
+                                }}
+                            />
+                            {state.markets.loading ?
+                                <div>
+                                    <Spinner className="m-auto" />
+                                </div> :
                                 <MarketList
                                     list={state.markets.data}
                                     onDelete={doDelete}
@@ -98,25 +130,33 @@ export default function Markets() {
                     </Card>
                 </Col>
             </Row>
-            <CustomModal 
+            <CustomModal
                 isOpen={state.showAdd}
                 toggle={toggleAdd}
                 header="Add Market"
                 backdrop="static"
                 keyboard={false}
-                >
-                   {state.showAdd && <AddMarket reload={()=>setReload(!reload)} onClose={()=>toggleAdd()}/>}
+            >
+                {state.showAdd && <AddMarket
+                    categories={categories}
+                    reload={() => setReload(!reload)}
+                    onClose={() => toggleAdd()}
+                />}
 
             </CustomModal>
 
-            <CustomModal 
+            <CustomModal
                 isOpen={state.showEdit}
                 toggle={toggleEdit}
                 header="Edit Market"
                 backdrop="static"
                 keyboard={false}
-                >
-                   {state.showEdit && <AddMarket reload={()=>setReload(!reload)} isEdit={true} selectedMarket={state.selectedMarket}/>}
+            >
+                {state.showEdit && <AddMarket
+                    categories={categories}
+                    reload={() => setReload(!reload)}
+                    isEdit={true} selectedMarket={state.selectedMarket}
+                />}
 
             </CustomModal>
         </Container>

@@ -35,7 +35,7 @@ export default function MarketList(props) {
                             </td>
                         </tr>
 
-                    ))}
+                       ))}
                 </tbody>
 
             }

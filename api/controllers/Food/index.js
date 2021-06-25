@@ -9,6 +9,7 @@ const uploadFunction = require('../../helpers/multer')
 const upload = uploadFunction('./uploads')
 var uploader = upload.array('images', 3)
 const fs = require('fs')
+const Op = require('sequelize').Op
 
 module.exports = {
     addCategory: ('/', async (req, res) => {
@@ -206,8 +207,14 @@ module.exports = {
 
     getAllMarkets: ('/', async (req, res) => {
         let response
+        let {name, categoryId} = req.query
+        let whereObj = {}
+        console.log({name, categoryId})
+        addToObject("name", name, whereObj)
+        addToObject("categoryId", categoryId, whereObj)
         try {
             await dbHelper.getAllInstance("market", {
+                where: whereObj,
                 include: {
                     model: Models.category,
                     as: 'category',
