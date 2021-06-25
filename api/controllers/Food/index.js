@@ -90,7 +90,7 @@ module.exports = {
         let response
         uploader(req, res, async (err) => {
             if (err instanceof multer.MulterError) {
-                logger.error(`error: ${err.message ? JSON.parse(err.message) : err.toString()}, payload: ${JSON.stringify(req.body)}`)
+                logger.error(`error: ${err.toString()}, payload: ${JSON.stringify(req.body)}`)
                 response = new Response(failedStatus, err.message ? err.message : err.toString(), failureCode, {})
                 return res.status(400)
                     .send(response)
@@ -104,6 +104,7 @@ module.exports = {
                 try {
                     let { name, description, categoryId, address } = req.body
 
+                    console.log(req.files)
                     if (req.files && req.files.length !== 3) {
                         response = new Response(failedStatus, "3 image files are required", failureCode, {})
                         return res.status(400)

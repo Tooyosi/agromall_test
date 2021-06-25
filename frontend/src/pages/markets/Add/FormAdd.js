@@ -16,11 +16,13 @@ const validation = Yup.object().shape({
         .required("Required"),
     state: Yup.string()
         .required("Required"),
+        // files:  Yup.array()
+        // .min(3, 'Select 3 files'),
 })
 
 
 export default function FormAdd(props) {
-    let { formControl, onChange, formName } = props
+    let { formControl, onChange, formName, categories } = props
 
     return (
         <FormsWrapper
@@ -64,7 +66,7 @@ export default function FormAdd(props) {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md="12">
+                                <Col md="6">
                                     <Label className="text-main-title font-weight-bold small">Select Category</Label>
                                     <Input
                                         type="select"
@@ -74,10 +76,24 @@ export default function FormAdd(props) {
                                         invalid={touched.categoryId && errors.categoryId}
                                         onChange={handleChange} >
                                         <option value="">Select Category</option>
-                                        <option value="1">Test</option>
+                                        {categories?.map((category) => (
+                                            <option value={category.id}>{category.name}</option>
+
+                                        ))}
                                     </Input>
                                     {showFieldError("categoryId", errors, touched)}
                                 </Col>
+                                <Col md="6">
+                                    <Label className="text-main-title font-weight-bold small">Select Category</Label>
+                                    <Input
+                                        type="file"
+                                        name="files"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange} 
+                                        multiple/>
+                                    {/* {showFieldError("categoryId", errors, touched)} */}
+                                </Col>
+                            
                             </Row>
                             <Row>
                                 <Col md="4" sm="6">
@@ -113,13 +129,13 @@ export default function FormAdd(props) {
                                         onChange={handleChange} />
                                     {showFieldError("state", errors, touched)}
                                 </Col>
-                            
+
                             </Row>
                             <Row as="row">
 
                                 <Col sm="12" className="mt-2">
 
-                                    <Button color="primary" className="btn-floating small">Login In</Button>
+                                    <Button color="primary" className="btn-floating small" disabled={values.files < 3}>Submit</Button>
                                 </Col>
 
                             </Row>

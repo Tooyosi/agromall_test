@@ -21,7 +21,9 @@ export default function Auth() {
         try {
             showLoading()
             let {data} = await login(state.formLogin)
-            console.log({data})
+            localStorage.setItem("token", data?.data?.access_token)
+            localStorage.setItem("user", JSON.stringify(data.data))
+            window.location.href ="/markets/add"
         } catch (error) {
             showError(error?.response?.data?.description?.message || error?.response?.data?.description || "An error occured")
         }

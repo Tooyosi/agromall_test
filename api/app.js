@@ -4,7 +4,8 @@ const app = express();
 
 require("dotenv").config()
 const port = process.env.PORT || 4000;
-const passport = require('passport')
+const passport = require('passport');
+const Response = require('./helpers/ResponseClass');
 
 
 
@@ -17,8 +18,7 @@ app.use('/uploads', express.static('uploads'))
 app.use(function (req, res, next) {
     var allowedOrigins = [process.env.FRONTEND_URI];
     var origin = req.headers.origin;
-
-    if (allowedOrigins.includes(origin)) {
+    if (origin && allowedOrigins.includes(origin || process.env.FRONTEND_URI)) {
         res.setHeader("Access-Control-Allow-Origin", origin); // restrict it to the required domain
     }
 
@@ -28,7 +28,15 @@ app.use(function (req, res, next) {
     return next();
 });
 
-
+// general error handling
+app.use((err, req, res, next) => {
+    // handleError(err, res);
+    // console.log(err)
+    if(err){
+        let response = new Response("Failed", "Error", "99", "An error occured")
+        return res.status(500).send(response)
+    }
+  });
 // import routes
 const authRoutes = require('./routes/Auth')
 const foodRoutes = require('./routes/Food')

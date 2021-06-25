@@ -20,9 +20,9 @@ module.exports = (fileLocation) => {
 
     const upload = multer({
         storage: storage,
-        limits: {
-            fileSize: 1590000
-        },
+        // limits: {
+        //     fileSize: 1590000
+        // },
         fileFilter: fileFilter
     })
 
