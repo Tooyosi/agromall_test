@@ -98,7 +98,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
-uploads/*.jpg
-uploads/*.png
-uploads/*.jpeg
-uploads/*
+api/uploads/*.jpg
+api/uploads/*.png
+api/uploads/*.jpeg
+api/uploads/*
